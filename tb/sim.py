@@ -66,9 +66,9 @@ def _generate_obstacles(
 
 def run_simulation() -> None:
     """
-    Esegue la simulazione completa, mostra il plot principale e salva:
-        - GIF dell’animazione del primo plot
-        - PNG del grafico finale (theta vs distance) per lo sweep “migliore”.
+    Esegue la simulazione completa, mostra il plot e salva:
+        - GIF dell’animazione
+        - PNG del grafico (theta vs distance).
     """
     # Limiti ambiente
     env_x_min, env_x_max = 0, 20
@@ -97,7 +97,7 @@ def run_simulation() -> None:
     # Robot
     robot = Robot(start_position, goal_position, sensing_range, robot_radius=robot_radius)
 
-    # ---------------------- Figura principale (ambiente) ----------------------
+    # ---------------------- Figura ambiente ----------------------
     fig, ax = plt.subplots(figsize=(10, 8))
     ax.set_aspect("equal")
     ax.set_xlim(env_x_min, env_x_max)
@@ -106,7 +106,7 @@ def run_simulation() -> None:
     ax.grid(False)
     ax.tick_params(bottom=False, left=False, labelbottom=False, labelleft=False)
 
-    # Start & Goal (bordo nero)
+    # Start & Goal 
     start_patch = patches.Circle(
         start_position, radius=robot_radius * 1.5, facecolor="tab:blue", edgecolor="black", linewidth=1.2, label="Start"
     )
@@ -120,7 +120,7 @@ def run_simulation() -> None:
     for obs in obstacles:
         ax.add_patch(obs.get_patch())
 
-    # Robot + traccia
+    # Robot + path
     robot_patch = patches.Circle(
         robot.position, radius=robot.robot_radius, facecolor="tab:blue", edgecolor="black", label="Robot"
     )
@@ -144,7 +144,7 @@ def run_simulation() -> None:
     # Discontinuità
     disc_plot, = ax.plot([], [], "rx", markersize=6, label="Discontinuities")
 
-    # Legenda: mappa colori comportamento
+    # Legenda
     behavior_handles = [
         Patch(facecolor="tab:blue", edgecolor="black", label="Robot color: Move-to-goal"),
         Patch(facecolor="tab:orange", edgecolor="black", label="Robot color: Boundary-following"),
@@ -154,7 +154,7 @@ def run_simulation() -> None:
     labels.extend([h.get_label() for h in behavior_handles])
     ax.legend(handles, labels, loc="upper left")
 
-    # Badge comportamento (in basso a destra)
+    # Badge comportamento
     behavior_text = ax.text(
         0.98, 0.04, "", transform=ax.transAxes,
         ha="right", va="bottom",
@@ -164,7 +164,6 @@ def run_simulation() -> None:
     plt.ion()
     plt.show()
 
-    # Sweep “migliore” (maggior numero di hit) per il grafico finale
     best_sweep = None
     best_hits = -1
 
@@ -181,7 +180,6 @@ def run_simulation() -> None:
                 best_hits = hits
                 best_sweep = dap
 
-            # Raggi
             for i, (adeg, dist, pt, _) in enumerate(dap[: len(sensor_rays)]):
                 if pt:
                     sensor_rays[i].set_data([robot.position[0], pt[0]], [robot.position[1], pt[1]])
@@ -190,23 +188,19 @@ def run_simulation() -> None:
                     ey = robot.position[1] + robot.max_range * math.sin(math.radians(adeg))
                     sensor_rays[i].set_data([robot.position[0], ex], [robot.position[1], ey])
 
-            # Discontinuità
             if dps:
                 disc_plot.set_data([p[0] for p in dps], [p[1] for p in dps])
             else:
                 disc_plot.set_data([], [])
 
-            # Step FSM
             status = robot.step(obstacles)
 
-            # Path
             if len(robot.path) >= 2:
                 xs, ys = map(list, zip(*robot.path))
             else:
                 xs, ys = [robot.path[0][0]], [robot.path[0][1]]
             path_line.set_data(xs, ys)
 
-            # Robot + badge
             robot_patch.set_center(robot.position)
             robot_patch.set_facecolor("tab:blue" if robot.current_behavior == "move_to_goal" else "tab:orange")
             sensor_circle.set_center(robot.position)
@@ -231,7 +225,7 @@ def run_simulation() -> None:
                 writer.grab_frame()
                 break
 
-    # ---------------------- Grafico finale (theta vs distance) ----------------------
+    # ---------------------- Grafico (theta vs distance) ----------------------
     sweep = best_sweep if best_sweep is not None else robot.last_sensor_data
     if sweep:
         thetas, dists = [], []

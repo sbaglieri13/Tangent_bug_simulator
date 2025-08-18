@@ -1,5 +1,5 @@
 """
-Geometria degli ostacoli: rettangoli axis-aligned e operazioni di base.
+Geometria degli ostacoli
 """
 
 import math
@@ -10,7 +10,7 @@ import matplotlib.patches as patches
 
 class Obstacle:
     """
-    Ostacolo rettangolare axis-aligned.
+    Ostacolo rettangolare.
 
     Parametri:
         x_min, y_min, x_max, y_max: estremi del rettangolo.
@@ -20,8 +20,8 @@ class Obstacle:
         - contains_point(p): verifica se p è dentro il rettangolo.
         - intersects(other, buffer): test di intersezione con un altro rettangolo.
         - get_closest_point_on_boundary(q): punto del bordo più vicino a q.
-        - intersect_ray(origin, angle_rad): intersezione raggio ↔ rettangolo.
-        - is_within_range(robot_pos, max_range): test distanza bounding box.
+        - intersect_ray(origin, angle_rad): intersezione raggio - rettangolo.
+        - is_within_range(robot_pos, max_range): test distanza.
         - get_corners_in_range(robot_pos, max_range): angoli nel raggio.
     """
 
@@ -46,7 +46,7 @@ class Obstacle:
         return self.x_min <= point[0] <= self.x_max and self.y_min <= point[1] <= self.y_max
 
     def intersects(self, other_obstacle: "Obstacle", buffer: float = 0.1) -> bool:
-        """True se questo rettangolo interseca l’altro (con margine 'buffer')."""
+        """True se questo rettangolo interseca l’altro."""
         return not (
             self.x_max + buffer < other_obstacle.x_min
             or self.x_min - buffer > other_obstacle.x_max
@@ -57,7 +57,7 @@ class Obstacle:
     def get_closest_point_on_boundary(self, query_point: Tuple[float, float]) -> Tuple[float, float]:
         """
         Punto sul bordo dell’ostacolo più vicino a 'query_point'.
-        Utile per calcolare d_followed in modo coerente.
+        Utile per calcolare d_followed.
         """
         px, py = query_point
         closest_x = max(self.x_min, min(px, self.x_max))
@@ -85,7 +85,7 @@ class Obstacle:
         self, origin: Tuple[float, float], angle_rad: float
     ) -> Tuple[Optional[float], Optional[Tuple[float, float]], Optional["Obstacle"]]:
         """
-        Intersezione robusta raggio-rettangolo (assi allineati).
+        Intersezione raggio-rettangolo.
         Ritorna: (distanza t > 0, punto_intersezione, self) oppure (None, None, None).
         """
         ox, oy = origin
@@ -117,7 +117,7 @@ class Obstacle:
         return tmin, pmin, self
 
     def is_within_range(self, robot_pos: Tuple[float, float], max_range: float) -> bool:
-        """Test rapido: distanza minima (bounding box) dall’ostacolo."""
+        """distanza minima (bounding box) dall’ostacolo."""
         cx = max(self.x_min, min(robot_pos[0], self.x_max))
         cy = max(self.y_min, min(robot_pos[1], self.y_max))
         return math.dist(robot_pos, (cx, cy)) <= max_range

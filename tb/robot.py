@@ -1,5 +1,5 @@
 """
-Robot + FSM dell'algoritmo Tangent Bug.
+Robot + algoritmo Tangent Bug.
 """
 
 import math
@@ -67,7 +67,6 @@ class Robot:
             nx = cx + vx / n * step_size
             ny = cy + vy / n * step_size
 
-        # Limiti ambiente hard-coded per coerenza con il progetto originale (20x15)
         if self.check_collision((nx, ny), obstacles):
             return False
         if not (0 + self.robot_radius <= nx <= 20 - self.robot_radius and 0 + self.robot_radius <= ny <= 15 - self.robot_radius):
@@ -126,7 +125,7 @@ class Robot:
         self.last_sensor_data = dap
         return dap, uniq
 
-    # --------------------------------- Utility TB ---------------------------------
+    # --------------------------------- Utility ---------------------------------
     def calculate_heuristic_distance(self, obstacle_point: Tuple[float, float]) -> float:
         return math.dist(self.position, obstacle_point) + math.dist(obstacle_point, self.goal)
 
@@ -356,7 +355,7 @@ class Robot:
         self.just_switched_to_boundary_following = False
         return "move_to_goal"
 
-    # --------------------------------- Step FSM ---------------------------------
+    # --------------------------------- Step ---------------------------------
     def step(self, obstacles: List[Obstacle]) -> str:
         if self.current_behavior == "move_to_goal":
             return self.move_to_goal_behavior(obstacles)
