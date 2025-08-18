@@ -14,7 +14,7 @@ Il Tangent Bug alterna due comportamenti principali:
    - Esegue una scansione a 360° e calcola i **punti di discontinuità** $O_k$.
    - Se il goal è visibile, si muove verso il goal.
    - Altrimenti si dirige verso il punto $O_k$ che minimizza l’euristica
-     $$ h_k(q) = d(q, O_k) + d(O_k, \text{goal}) \, . $$
+     $$h_k(q) = d(q, O_k) + d(O_k, \text{goal})$$
    - Passa al *boundary following* quando la minima $h_k(q)$ inizia ad aumentare.
 
 2. **Boundary-following**
@@ -141,7 +141,7 @@ Attributi principali:
 - `follow_direction: int` — verso di percorrenza del bordo (+1 o −1).
 - `d_reach, d_followed: float` — distanze usate per la condizione di switch.
 - `m_point: Optional[(x,y)]` — punto per metrica followed.
-- `previous_min_heuristic_dist: float` — tracking di $$ \min_k h_k(q) $$ nel comportamento 1.
+- `previous_min_heuristic_dist: float` — tracking di $$\min_k h_k(q)$$ nel comportamento 1.
 
 Metodi:
 
@@ -163,11 +163,11 @@ Metodi:
 
 - **Euristiche e FSM (Tangent Bug)**
   - `calculate_heuristic_distance(O_k) -> float`  
-   $$ h_k(q) = d(q,O_k) + d(O_k,goal) $$
+   $$h_k(q) = d(q,O_k) + d(O_k,goal)$$
   - `move_to_goal_behavior(obstacles) -> str`  
     - Calcola `dap`, discontinuità e `d_reach`.
     - Se il goal è visibile, prova a muoversi direttamente. Se collide, entra in boundary.
-    - Se il goal **non** è visibile: seleziona $$O_k$$ che minimizza $$h_k$$; se $$ \min h_k $$ peggiora rispetto allo step precedente, **switch** a boundary.
+    - Se il goal **non** è visibile: seleziona $$O_k$$ che minimizza $$h_k$$; se $$\min h_k$$ peggiora rispetto allo step precedente, **switch** a boundary.
     - Ritorna lo stato `"move_to_goal" | "boundary_following" | "stuck" | "goal_reached"`.
   - `boundary_following_behavior(obstacles) -> str`  
     - Aggiorna `d_reach` e `d_followed`.  
