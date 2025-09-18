@@ -20,8 +20,8 @@ Il Tangent Bug alterna due comportamenti principali:
 2. **Boundary-following**
    - Segue il bordo dell’ostacolo mantenendo una distanza desiderata.
    - Confronta:
-     - $d_{\text{reach}}$: distanza “diretta” verso il goal (se visibile) o un surrogato basato sui punti colpiti dal LIDAR;
-     - $d_{\text{followed}}$: distanza dal goal del miglior punto “candidato” visto lungo il bordo.
+     - $d_{\text{reach}}$: distanza più corta tra l’ostacolo che in quel momento blocca la vista verso il goal e il goal stesso
+     - $d_{\text{followed}}$: distanza più corta tra l’ostacolo che il robot sta seguendo e il goal
    - Ritorna a *move-to-goal* quando **$d_{\text{reach}} < d_{\text{followed}}$** (oppure quando il goal viene raggiunto).
 
 
