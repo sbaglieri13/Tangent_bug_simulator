@@ -161,7 +161,7 @@ Metodi:
   - `is_goal_reachable(dap) -> bool`  
     Verifica se lungo la direzione `q to goal` lo sweep non trova impatti più vicini del goal.
 
-- **Euristiche e FSM (Tangent Bug)**
+- **Euristiche**
   - `calculate_heuristic_distance(O_k) -> float`  
    $$h_k(q) = d(q,O_k) + d(O_k,goal)$$
   - `move_to_goal_behavior(obstacles) -> str`  
@@ -171,7 +171,7 @@ Metodi:
     - Ritorna lo stato `"move_to_goal" | "boundary_following" | "stuck" | "goal_reached"`.
   - `boundary_following_behavior(obstacles) -> str`  
     - Aggiorna `d_reach` e `d_followed`.  
-    - Controlla condizione **\( d_{reach} < d_{followed} \)** ⇒ torna a move‑to‑goal.
+    - Controlla condizione **$d_{\text{reach}}$ < $d_{\text{followed}}$** ⇒ torna a move‑to‑goal.
 
 
 ### `sim.py` — loop di simulazione + export media
