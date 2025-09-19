@@ -153,7 +153,7 @@ Metodi:
 
 - **Sensing**
   - `sense_environment(obstacles, resolution_deg=1) -> (dap, discontinuities)`  
-    Esegue uno sweep 360°: per ogni angolo trova la prima intersezione con gli ostacoli.
+    Per ogni angolo trova la prima intersezione con gli ostacoli.
     Ritorna:
     - `dap`: lista di tuple `(angle_deg, dist, hit_point | None, obstacle_ref | None)`
     - `discontinuities`: punti candidati $$O_k$$.  
@@ -162,7 +162,7 @@ Metodi:
     Verifica se lungo la direzione `q to goal` lo sweep non trova impatti più vicini del goal.
 
 - **Euristiche**
-  - `calculate_heuristic_distance(O_k) -> float`  
+  - `calculate_heuristic_distance Oₖ -> float`  
    $$h_k(q) = d(q,O_k) + d(O_k,goal)$$
   - `move_to_goal_behavior(obstacles) -> str`  
     - Calcola `dap`, discontinuità e `d_reach`.
