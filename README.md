@@ -36,8 +36,6 @@ Il Tangent Bug alterna due comportamenti principali:
 │  ├─ sim.py          # entrypoint: run_simulation()
 │  ├─ robot.py        # logica del robot 
 │  ├─ geometry.py     # ostacoli + funzioni geometriche 
-│  ├─ plotting.py     # utility di disegno 
-│  └─ utils.py        # costanti/aiuti (seed, formattazioni)
 ├─ main.py          
 ├─ requirements.txt
 └─ README.md
